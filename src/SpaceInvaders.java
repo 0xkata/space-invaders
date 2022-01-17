@@ -18,9 +18,17 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     // Game Stats
     public static int posX;
     public static int posY;
-    public static int posxShip = 320;
-    public static int posyShip = 400;
+    public static int posxShip = 463;
+    public static int posyShip = 650;
+    public static int posxBullet;
+    public static int posyBullet;
+    public static int timer = 0;
     public static int speedFactor = 1;
+    public static int death = 0;
+    public static int alien_array[][] = {{1, 1, 1, 1},
+                                         {1, 1, 1, 1},
+                                         {1, 1, 1, 1}};
+    public static boolean shot = false;
 
     // Game Images
     public static BufferedImage alien;
@@ -39,8 +47,8 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         try
         {
             spaceship = ImageIO.read(new File("spaceship.png")); // 98 x 100 px
-            // spaceship_bullet = ImageIO.read(new File("spaceship_bullet.png"));
-            // alien = ImageIO.read(new File("alien.png"));
+            spaceship_bullet = ImageIO.read(new File("spaceship_bullet.png")); // 10 x 32 px
+            alien = ImageIO.read(new File("alien.png"));
             // alien_bullet = ImageIO.read(new File("alien_bullet.png"));
         }
         catch (Exception e)
@@ -70,6 +78,18 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    public static void bulletUpdate() {
+        if (posyBullet <= 0) {
+            shot = false;
+        }
+        posyBullet -= 10;
+    }
+
+    public static void alienUpdate() {
+        if (alien_array[0][0] == 1) {
+
+        }
+    }
 
     // KeyListener Methods
     public void keyPressed(KeyEvent e) {
@@ -80,7 +100,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             if (posxShip > 926) {
                 posxShip = 926;
             }
-            paintComponent(this.getGraphics());
         }
         //Left Key
         else if (e.getKeyCode()==37 || e.getKeyChar() == 'a') {
@@ -89,7 +108,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             if (posxShip < 0) {
                 posxShip = 0;
             }
-            paintComponent(this.getGraphics());
         }
         //Up Key
         else if (e.getKeyCode()==38 || e.getKeyChar() == 'w') {
@@ -98,7 +116,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             if (posyShip < 0) {
                 posyShip = 0;
             }
-            paintComponent(this.getGraphics());
         }
         //Down Key
         else if (e.getKeyCode()==40 || e.getKeyChar() == 's') {
@@ -107,7 +124,12 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             if (posyShip > 668) {
                 posyShip = 668;
             }
-            paintComponent(this.getGraphics());
+        }
+        else if (e.getKeyChar() == ' ') {
+            System.out.println("Shoot");
+            shot = true;
+            posxBullet = posxShip + 44;
+            posyBullet = posyShip;
         }
     }
 
@@ -150,6 +172,11 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         // }
         super.paintComponent(g);
         g.drawImage(spaceship, posxShip, posyShip, this);
+        if (shot) {
+            bulletUpdate();
+            g.drawImage(spaceship_bullet, posxBullet, posyBullet, this);
+        }
+
     }
 
     public static void main(String[] args) {
