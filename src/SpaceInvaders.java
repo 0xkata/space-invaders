@@ -16,20 +16,28 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     public static boolean play = false;
 
     // Game Stats
+    // Mouse
     public static int posX;
     public static int posY;
+
+    // Spaceship
     public static int posxShip = 463;
     public static int posyShip = 650;
+
+    // Spaceship bullet
     public static int posxBullet;
     public static int posyBullet;
+    public static boolean shot = false;
+
+    // Alien
     public static int posxAlien;
     public static int posyAlien;
     public static int speed = 1;
     public static int death = 0;
-    public static int alien_array[][][] = {{{0, 0}, {100, 0}, {200, 0}, {300, 0}},
+    public static int alien_array[][][] = {{{0, 0},   {100, 0},   {200, 0},   {300, 0}},
                                            {{0, 100}, {100, 100}, {200, 100}, {300, 100}},
                                            {{0, 200}, {100, 200}, {200, 200}, {300, 200}}};
-    public static boolean shot = false;
+    public static boolean moveLeft = false;
 
     // Game Images
     public static BufferedImage spaceship;
@@ -85,8 +93,53 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         posyBullet -= 10;
     }
 
-    public static void alienUpdate() {
+    public static void weAreGoingDown() {
+        for (int[][] i : alien_array) {
+            for (int[] j : i) {
+                if (j[0] != -999 || j[1] != -999) {
+                    j[1] += 50;
+                }
+            }
+        }
+    }
 
+    public static void alienUpdate() {
+        if (moveLeft) {
+            for (int i = 0; i < 4; ++i) {
+                for (int j = 0; j < 3; ++j) {
+                    if (alien_array[j][i][0] != -999 && alien_array[j][i][0] < 0) {
+                        moveLeft = false;
+                        weAreGoingDown();
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            for (int i = 3; i >= 0; --i) {
+                for (int j = 0; j < 3; ++j) {
+                    if (alien_array[j][i][0] != -999 && alien_array[j][i][0] > 992) {
+                        moveLeft = true;
+                        weAreGoingDown();
+                        break;
+                    }
+                }
+            }
+        }
+        if (moveLeft) {
+            for (int[][] i : alien_array) {
+                for (int[] j : i) {
+                    j[0] -= speed;
+                }
+            }
+        }
+        else {
+            for (int[][] i : alien_array) {
+                for (int[] j : i) {
+                    j[0] += speed;
+                }
+            }
+        }
     }
 
     // KeyListener Methods
@@ -174,9 +227,10 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             bulletUpdate();
             g.drawImage(spaceship_bullet, posxBullet, posyBullet, this);
         }
+        alienUpdate();
         for (int[][] i : alien_array) {
             for (int[] j : i) {
-                if (j[0] == -1 || j[1] == -1) continue;
+                if (j[0] == -999 || j[1] == -999) continue;
                 g.drawImage(alien, j[0], j[1], this);
             }
         }
