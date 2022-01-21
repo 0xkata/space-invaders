@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Checklist:
-// refresh rate counter alien
-// different variable for it
+// Currently None :D
 ////////////////////////////////////////////////////////////////////////////////
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -93,13 +92,30 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         posyBullet -= 10;
     }
 
+    public static void collision_detection() {
+        for (int[][] i : alien_array) {
+            for (int[] j : i) {
+                // Rectangle(x-coord, y-coord, width, height)
+                Rectangle alienBox = new Rectangle(j[0], j[1], 32, 32);
+                Rectangle bulletBox = new Rectangle(posxBullet, posyBullet, 10, 32);
+                if (alienBox.intersects(bulletBox)) {
+                    death++;
+                    speed ++;
+                    j[0] = -999;
+                    j[1] = -999;
+                    shot = false;
+                }
+            }
+        }
+    }
+
     public static void weAreGoingDown() {
         for (int[][] i : alien_array) {
             for (int[] j : i) {
                 if (j[0] != -999 || j[1] != -999) {
                     j[1] += 50;
                 }
-            }
+             }
         }
     }
 
@@ -107,9 +123,10 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         if (moveLeft) {
             for (int i = 0; i < 4; ++i) {
                 for (int j = 0; j < 3; ++j) {
-                    if (alien_array[j][i][0] != -999 && alien_array[j][i][0] < 0) {
+                    if (alien_array[j][i][0] == -999) continue;
+                    if (alien_array[j][i][0] < 0) {
                         moveLeft = false;
-                        weAreGoingDown();
+//                        weAreGoingDown();
                         break;
                     }
                 }
@@ -118,9 +135,10 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         else {
             for (int i = 3; i >= 0; --i) {
                 for (int j = 0; j < 3; ++j) {
-                    if (alien_array[j][i][0] != -999 && alien_array[j][i][0] > 992) {
+                    if (alien_array[j][i][0] == -999) continue;
+                    if (alien_array[j][i][0] > 992) {
                         moveLeft = true;
-                        weAreGoingDown();
+//                        weAreGoingDown();
                         break;
                     }
                 }
@@ -225,6 +243,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         g.drawImage(spaceship, posxShip, posyShip, this);
         if (shot) {
             bulletUpdate();
+            collision_detection();
             g.drawImage(spaceship_bullet, posxBullet, posyBullet, this);
         }
         alienUpdate();
