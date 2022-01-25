@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Checklist:
-// going down is still bugged.
+// Currently none :D
 ////////////////////////////////////////////////////////////////////////////////
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,6 +15,8 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     public static boolean play = false;
     public static boolean credit = false;
     public static boolean help = false;
+    public static boolean win = false;
+    public static boolean lose = false;
 
     // Game Stats
     // Spaceship
@@ -29,6 +31,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     // Alien
     public static int speed = 1;
     public static int death = 0;
+    public static int turn_count = 0;
     public static int alien_array[][][] = {{{0, 0},   {100, 0},   {200, 0},   {300, 0}},
                                            {{0, 100}, {100, 100}, {200, 100}, {300, 100}},
                                            {{0, 200}, {100, 200}, {200, 200}, {300, 200}}};
@@ -124,6 +127,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 if (alien_array[j][i][0] < 0) {
                     moveLeft = false;
                     weAreGoingDown();
+                    turn_count++;
                     return;
                 }
             }
@@ -137,6 +141,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 if (alien_array[j][i][0] > 992) {
                     moveLeft = true;
                     weAreGoingDown();
+                    turn_count++;
                     return;
                 }
             }
@@ -173,6 +178,17 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
         else {
             movingRight();
+        }
+    }
+
+    public static void gameOver() {
+        if (death == 12) {
+            play = false;
+            win = true;
+        }
+        if (turn_count == 12) {
+            play = false;
+            lose = true;
         }
     }
 
@@ -290,6 +306,19 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                     g.drawImage(alien, j[0], j[1], this);
                 }
             }
+            gameOver();
+        }
+        if (credit) {
+
+        }
+        if (help) {
+
+        }
+        if (win) {
+
+        }
+        if (lose) {
+
         }
     }
 
