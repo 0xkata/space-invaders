@@ -55,7 +55,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         addMouseListener(this);
         try
         {
-            space = ImageIO.read(new File("space.jpg"));
+            space = ImageIO.read(new File("space.png"));
             spaceship = ImageIO.read(new File("spaceship.png")); // 98 x 100 px
             spaceship_bullet = ImageIO.read(new File("spaceship_bullet.png")); // 10 x 32 px
             alien = ImageIO.read(new File("alien.png"));
@@ -186,9 +186,15 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             play = false;
             win = true;
         }
-        if (turn_count == 12) {
-            play = false;
-            lose = true;
+        for (int i = 2; i >= 0; --i) {
+            for (int j = 0; j < 3; ++j) {
+                if (alien_array[i][j][0] == -999 || alien_array[i][j][1] == -999) continue;
+                if (alien_array[i][j][1] > 600) {
+                    play = false;
+                    lose = true;
+                    break;
+                }
+            }
         }
     }
 
@@ -244,28 +250,30 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         int x = e.getX();
         int y = e.getY();
 
-        if(x >=Frame.WIDTH/2+95 && x <= Frame.WIDTH/2+210)
+        if(x >=Frame.WIDTH/2+290 && x <= Frame.WIDTH/2+410)
         {
-            if(y>=160 && y<=215)
+            if(y>=305 && y<=365)
             {
                 System.out.println("Play Pressed");
                 menu = false; play = true;
             }
         }
 
-        if(x >=Frame.WIDTH/2+95 && x <= Frame.WIDTH/2+210)
+        if(x >=Frame.WIDTH/2+290 && x <= Frame.WIDTH/2+415)
         {
-            if(y>=260 && y<=310)
+            if(y>=435 && y<=495)
             {
                 System.out.println("Help Pressed");
+                menu = false; help = true;
             }
         }
 
-        if(x >=Frame.WIDTH/2+95 && x <= Frame.WIDTH/2+210)
+        if(x >=Frame.WIDTH/2+275 && x <= Frame.WIDTH/2+460)
         {
-            if(y>=360 && y<=410)
+            if(y>=565 && y<=625)
             {
                 System.out.println("Credits Pressed");
+                menu = false; credit = true;
             }
 
         }
@@ -280,16 +288,17 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         if (menu) {
             super.paintComponent(g);
             g.drawImage(space,0,0,null);
+            g.drawImage(alien,600,350,null);
             g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 80));
+            g.drawString("SPACE INVADERS",Frame.WIDTH/2+150, 190);
             g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.drawString("SPACE INVADERS",Frame.WIDTH/2+75, 100);
-            g.setFont(new Font("Arial", Font.BOLD, 30));
-            g.drawString("Play",Frame.WIDTH/2+120, 200);
-            g.drawString("Help",Frame.WIDTH/2+120, 300);
-            g.drawString("Credits",Frame.WIDTH/2+100, 400);
-            g.drawRect(Frame.WIDTH/2+95, 165, 115, 50);
-            g.drawRect(Frame.WIDTH/2+95, 265, 115, 50);
-            g.drawRect(Frame.WIDTH/2+95, 365, 115, 50);
+            g.drawString("Play",Frame.WIDTH/2+300, 350);
+            g.drawString("Help",Frame.WIDTH/2+300, 480);
+            g.drawString("Credits",Frame.WIDTH/2+280, 610);
+            g.drawRect(Frame.WIDTH/2+290, 305, 120, 60);
+            g.drawRect(Frame.WIDTH/2+290, 435, 125, 60);
+            g.drawRect(Frame.WIDTH/2+275, 565, 185, 60);
         }
         if (play) {
             super.paintComponent(g);
