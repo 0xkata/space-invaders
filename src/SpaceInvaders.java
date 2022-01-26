@@ -32,7 +32,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     // Alien
     public static int speed = 1;
     public static int death = 0;
-    public static int turn_count = 0;
     public static int alien_array[][][] = {{{0, 0},   {100, 0},   {200, 0},   {300, 0}},
                                            {{0, 100}, {100, 100}, {200, 100}, {300, 100}},
                                            {{0, 200}, {100, 200}, {200, 200}, {300, 200}}};
@@ -127,7 +126,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 if (alien_array[j][i][0] < 0) {
                     moveLeft = false;
                     weAreGoingDown();
-                    turn_count++;
                     return;
                 }
             }
@@ -141,7 +139,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 if (alien_array[j][i][0] > 974) {
                     moveLeft = true;
                     weAreGoingDown();
-                    turn_count++;
                     return;
                 }
             }
@@ -283,6 +280,21 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 if (y >= 555 && y <= 615) {
                     System.out.println("Play Again Pressed");
                     win = false; play = true;
+                    posxShip = 463; posyShip = 650;
+                    alien_array[0][0][0] = 0;   alien_array[0][0][1] = 0;
+                    alien_array[0][1][0] = 100; alien_array[0][1][1] = 0;
+                    alien_array[0][2][0] = 200; alien_array[0][2][1] = 0;
+                    alien_array[0][3][0] = 300; alien_array[0][3][1] = 0;
+                    alien_array[1][0][0] = 0;   alien_array[1][0][1] = 100;
+                    alien_array[1][1][0] = 100; alien_array[1][1][1] = 100;
+                    alien_array[1][2][0] = 200; alien_array[1][2][1] = 100;
+                    alien_array[1][3][0] = 300; alien_array[1][3][1] = 100;
+                    alien_array[2][0][0] = 0;   alien_array[2][0][1] = 200;
+                    alien_array[2][1][0] = 100; alien_array[2][1][1] = 200;
+                    alien_array[2][2][0] = 200; alien_array[2][2][1] = 200;
+                    alien_array[2][3][0] = 300; alien_array[2][3][1] = 200;
+                    speed = 1; death = 0;
+                    moveLeft = false;
                 }
             }
         }
@@ -291,6 +303,21 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 if (y >= 555 && y <= 615) {
                     System.out.println("Play Again Pressed");
                     lose = false; play = true;
+                    posxShip = 463; posyShip = 650;
+                    alien_array[0][0][0] = 0;   alien_array[0][0][1] = 0;
+                    alien_array[0][1][0] = 100; alien_array[0][1][1] = 0;
+                    alien_array[0][2][0] = 200; alien_array[0][2][1] = 0;
+                    alien_array[0][3][0] = 300; alien_array[0][3][1] = 0;
+                    alien_array[1][0][0] = 0;   alien_array[1][0][1] = 100;
+                    alien_array[1][1][0] = 100; alien_array[1][1][1] = 100;
+                    alien_array[1][2][0] = 200; alien_array[1][2][1] = 100;
+                    alien_array[1][3][0] = 300; alien_array[1][3][1] = 100;
+                    alien_array[2][0][0] = 0;   alien_array[2][0][1] = 200;
+                    alien_array[2][1][0] = 100; alien_array[2][1][1] = 200;
+                    alien_array[2][2][0] = 200; alien_array[2][2][1] = 200;
+                    alien_array[2][3][0] = 300; alien_array[2][3][1] = 200;
+                    speed = 1; death = 0;
+                    moveLeft = false;
                 }
             }
         }
@@ -338,10 +365,31 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         if (credit) {
             super.paintComponent(g);
             g.drawImage(space,0,0,null);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 80));
+            g.drawString("Credits",Frame.WIDTH/2+330, 190);
+            g.drawString("Thank You For playing :D",Frame.WIDTH/2+20, 330);
+            g.setFont(new Font("Arial", Font.BOLD, 30));
+            g.drawString("Made by Anthony, and Hanfei",Frame.WIDTH/2+20,700);
         }
         if (help) {
             super.paintComponent(g);
             g.drawImage(space,0,0,null);
+            g.drawImage(alien,750,130,null);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 80));
+            g.drawString("How To Play",Frame.WIDTH/2+240, 100);
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("Game Objective",20,200);
+            g.drawString("Player Control",Frame.WIDTH/2+540,480);
+            g.setFont(new Font("Arial", Font.BOLD, 25));
+            g.drawString("Aliens are real, and they are invading Earth,",20,250);
+            g.drawString("we have to kill them before they reaches our atmosphere.",20,300);
+            g.drawString("If you killed them before they approach, you win.",20,350);
+            g.drawString("If they reaches the atmosphere, you lose",20,400);
+            g.drawString("D,> to move right",Frame.WIDTH/2+540,530);
+            g.drawString("A,< to move left",Frame.WIDTH/2+540,580);
+            g.drawString("Spcae bar to shoot bullest",Frame.WIDTH/2+540,630);
         }
         if (win) {
             super.paintComponent(g);
