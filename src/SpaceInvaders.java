@@ -132,7 +132,6 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
                 }
             }
             for (String s : leaderboard) {
-                System.out.println(s);
                 outputFile.println(s);
             }
             outputFile.close();
