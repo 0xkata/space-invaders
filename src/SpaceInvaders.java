@@ -596,7 +596,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             g.setFont(new Font("Arial", Font.BOLD, 80));
             g.drawString("GAME OVER", 269, 200); // width: 485
             g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.drawString("time:" + time, 100, 100);
+            g.drawString("time:" + time, 30, 50);
             g.drawString("Play Again?", 369, 600); // width: 285
             g.drawRect(365, 550, 295, 60);
             g.drawString("Menu",50, 700);
