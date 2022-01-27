@@ -1,7 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
-// Checklist:
-// Add comments.
-////////////////////////////////////////////////////////////////////////////////
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -95,12 +91,14 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     }
 
     // Environment methods
+    // Updating the game time
     public static void timerUpdate() {
         if (play && !win && !lose) {
             time += 0.01;
         }
     }
 
+    // Checking if the player met game ending condition
     public static void gameOver() {
         if (death == 12) {
             play = false; win = true;
@@ -119,9 +117,11 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Updating the leaderboard text file after a player ends his game
     public static void leaderboardUpdate() {
         try {
             PrintWriter outputFile = new PrintWriter(new FileWriter("leaderboard.txt"));
+
             for (int i = 0; i < 10; ++i) {
                 if (time < Double.parseDouble(leaderboard[i])) {
                     for (int j = 8; j >= i; --j) {
@@ -141,6 +141,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Retrieving data from the leaderboard text file before playing
     public static void retrievingLeaderboard() {
         try {
             Scanner inputFile = new Scanner(new File("leaderboard.txt"));
@@ -157,6 +158,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Reseting all the variables for another playing trial
     public static void resetVariables() {
         posxShip = 463; posyShip = 650;
         alien_array[0][0][0] = 0;   alien_array[0][0][1] = 5;
@@ -177,6 +179,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     }
 
     // Bullet methods
+    // Updating bullet coordinates
     public static void bulletUpdate() {
         if (posyBullet <= 0) {
             shot = false;
@@ -184,6 +187,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         posyBullet -= 10;
     }
 
+    // Detecting if the images collide, remove both alien and bullet afterwards
     public static void collision_detection() {
         for (int[][] i : alien_array) {
             for (int[] j : i) {
@@ -201,6 +205,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     }
 
     // Alien methods
+    // Checking if alien reaches left wall
     public static void leftBound() {
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 3; ++j) {
@@ -214,6 +219,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Checking if alien reaches right wall
     public static void rightBound() {
         for (int i = 3; i >= 0; --i) {
             for (int j = 0; j < 3; ++j) {
@@ -227,6 +233,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Making all aliens moving left every frame
     public static void movingLeft() {
         for (int[][] i : alien_array) {
             for (int[] j : i) {
@@ -236,6 +243,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Making all aliens moving right every frame
     public static void movingRight() {
         for (int[][] i : alien_array) {
             for (int[] j : i) {
@@ -245,6 +253,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Making all aliens go down after turning
     public static void weAreGoingDown() {
         for (int[][] i : alien_array) {
             for (int[] j : i) {
@@ -255,6 +264,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
         }
     }
 
+    // Updating alien coordiantes
     public static void alienUpdate() {
         if (moveLeft) {
             leftBound();
@@ -272,27 +282,27 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
 
     // KeyListener Methods
     public void keyPressed(KeyEvent e) {
-        //Right Key
-        if(e.getKeyCode()==39 || e.getKeyChar() == 'd') {
-            System.out.println("Right");
-            posxShip += 8;
-            if (posxShip > 926) {
-                posxShip = 926;
-            }
-        }
         //Left Key
-        else if (e.getKeyCode()==37 || e.getKeyChar() == 'a') {
+        if (e.getKeyCode()==37 || e.getKeyChar() == 'a') {
             System.out.println("Left");
             posxShip -= 8;
             if (posxShip < 0) {
                 posxShip = 0;
             }
         }
+        //Right Key
+        else if(e.getKeyCode()==39 || e.getKeyChar() == 'd') {
+            System.out.println("Right");
+            posxShip += 8;
+            if (posxShip > 926) {
+                posxShip = 926;
+            }
+        }
         // Space key
         else if (e.getKeyChar() == ' ' && !shot) {
             System.out.println("Shoot");
             shot = true;
-            posxBullet = posxShip + 44;
+            posxBullet = posxShip + 43;
             posyBullet = posyShip;
         }
     }
@@ -517,7 +527,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     		g.setFont(new Font("Arial", Font.BOLD, 80));
     		g.drawString("Leaderboard",Frame.WIDTH/2+310, 150);
     		g.setFont(new Font("Arial", Font.BOLD, 50));
-    		g.drawString("Back",55, 700);
+    		g.drawString("Back", 55, 700);
     		g.drawRect(Frame.WIDTH/2+50, 650, 130, 60);
     		g.setFont(new Font("Arial", Font.PLAIN, 30));
     		g.drawString("1.", 320, 235);
@@ -527,7 +537,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
     		g.drawString("5.", 320, 435);
     		g.drawString("6.", 320, 485);
     		g.drawString("7.", 320, 535);
-    		g.drawString("8.",320, 585);
+    		g.drawString("8.", 320, 585);
     		g.drawString("9.", 320, 635);
     		g.drawString("10.", 310, 685);
 
@@ -572,6 +582,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             g.setFont(new Font("Arial", Font.BOLD, 80));
             g.drawString("YOU WON!", 304, 200); // width: 415
             g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("time:" + (double) Math.round(time * 100) / 100, 30,  50);
             g.drawString("Play Again?", 369, 600); // width: 285
             g.drawRect(360, 550, 295, 60);
             g.drawString("Menu",50, 700);
@@ -585,6 +596,7 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
             g.setFont(new Font("Arial", Font.BOLD, 80));
             g.drawString("GAME OVER", 269, 200); // width: 485
             g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("time:" + time, 100, 100);
             g.drawString("Play Again?", 369, 600); // width: 285
             g.drawRect(365, 550, 295, 60);
             g.drawString("Menu",50, 700);
