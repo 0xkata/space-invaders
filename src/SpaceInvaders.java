@@ -103,16 +103,14 @@ public class SpaceInvaders extends JPanel implements KeyListener, Runnable, Mous
 
     public static void gameOver() {
         if (death == 12) {
-            play = false;
-            win = true;
+            play = false; win = true;
             leaderboardUpdate();
         }
         for (int i = 2; i >= 0; --i) {
             for (int j = 0; j < 3; ++j) {
                 if (alien_array[i][j][0] == -999 || alien_array[i][j][1] == -999) continue;
                 if (alien_array[i][j][1] > 514) {
-                    play = false;
-                    lose = true;
+                    play = false; lose = true;
                     time = 999.99;
                     leaderboardUpdate();
                     break;
